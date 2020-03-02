@@ -141,41 +141,6 @@ for i in range(64):
 canvas.pack(fill=BOTH)
 
 
-# while 1:
-    # for i in range(64):
-    #     side=randint(1, 5)
-    #     pos=canvas.coords(bots[i])
-    #     x1=pos[0]
-    #     y1=pos[1]
-    #     x2=pos[2]
-    #     y2=pos[3]
-    #     if side==1:
-    #         if y1-20<0:
-    #
-    #             canvas.move(bots[i], 0, 580)
-    #         else:
-    #
-    #             canvas.move(bots[i], 0, -20 )
-    #     if side==2:
-    #         if x2+20>800:
-    #
-    #             canvas.move(bots[i], 780, 0)
-    #         else:
-    #
-    #             canvas.move(bots[i], 20, 0)
-    #     if side==3:
-    #         if y2+20>600:
-    #
-    #             canvas.move(bots[i], 0, -580)
-    #         else:
-    #
-    #             canvas.move(bots[i], 0, 20 )
-    #     if side==4:
-    #         if x1-20<0:
-    #             canvas.move(bots[i], 780, 0 )
-    #         else:
-    #             canvas.move(bots[i], -20, 0 )
-    #
 
 window.bind('<Right>', right)
 window.mainloop()
