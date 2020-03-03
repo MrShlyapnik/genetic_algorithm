@@ -10,6 +10,7 @@ def right(event):
     global food
     global energy
     global energy_int
+    global food_coords
     coords=[]
     delete=[]
     i=0
@@ -40,6 +41,8 @@ def right(event):
                     energy_int = energy_int[:i] + energy_int[i + 1:]
                     coords = coords[:i] + coords[i + 1:]
                 else:
+                    energy[i] = canvas.create_text(canvas.coords(bots[i])[0]+10, canvas.coords(bots[i])[1]+10, text=str(energy_int[i]), fill='white')
+
                     coords.append(canvas.coords(bots[i]))
         if side==2:
             if x2+20>800:
@@ -58,6 +61,8 @@ def right(event):
                     energy_int = energy_int[:i] + energy_int[i + 1:]
                     coords = coords[:i] + coords[i + 1:]
                 else:
+                    energy[i] = canvas.create_text(canvas.coords(bots[i])[0]+10, canvas.coords(bots[i])[1]+10, text=str(energy_int[i]), fill='white')
+
                     coords.append(canvas.coords(bots[i]))
         if side==3:
             if y2+20>600:
@@ -76,6 +81,8 @@ def right(event):
                     energy_int = energy_int[:i] + energy_int[i + 1:]
                     coords = coords[:i] + coords[i + 1:]
                 else:
+                    energy[i] = canvas.create_text(canvas.coords(bots[i])[0]+10, canvas.coords(bots[i])[1]+10, text=str(energy_int[i]), fill='white')
+
                     coords.append(canvas.coords(bots[i]))
         if side==4:
             if x1-20<0:
@@ -86,31 +93,43 @@ def right(event):
                 canvas.delete(energy[i])
                 energy_int[i] -= 1
                 canvas.move(bots[i], -20, 0 )
-                energy[i] = canvas.create_text(canvas.coords(bots[i])[0]+10, canvas.coords(bots[i])[1]+10, text=str(energy_int[i]), fill='white')
+
+
                 if energy_int[i]==0:
                     canvas.delete(bots[i])
+                    canvas.delete(energy[i])
                     bots = bots[:i] + bots[i + 1:]
                     energy = energy[:i] + energy[i + 1:]
                     energy_int = energy_int[:i] + energy_int[i + 1:]
                     coords = coords[:i] + coords[i + 1:]
                 else:
+                    energy[i] = canvas.create_text(canvas.coords(bots[i])[0]+10, canvas.coords(bots[i])[1]+10, text=str(energy_int[i]), fill='white')
+
                     coords.append(canvas.coords(bots[i]))
+        if canvas.coords(bots[i]) in food_coords:
+            for j in range(len(food)):
+                if canvas.coords(bots[i])==canvas.coords(food[j]):
+                    canvas.delete(food[j])
+                    food_coords = food_coords[:i] +food_coords[i + 1:]
+                    canvas.delete(energy[i])
+                    energy_int[i] += 10
+                    energy[i] = canvas.create_text(canvas.coords(bots[i])[0]+10, canvas.coords(bots[i])[1]+10, text=str(energy_int[i]), fill='white')
+
+                    break
+
+
         canvas.pack(fill=BOTH)
         i += 1
-    # for i in delete:
-    #     print(i)
-    #     canvas.delete(bots[i])
-    #     bots=bots[:i]+bots[i+1:]
-    #     energy = energy[:i] + energy[i + 1:]
-    #     energy_int = energy_int[:i] + energy_int[i + 1:]
-    #     coords = coords[:i] + coords[i + 1:]
-    for i in range(len(food)):
-        canvas.delete(food[i])
-    for i in range(10):
-        x = randint(0, 40) * 20
-        y = randint(0, 30) * 20
-        if [x, y, x + 20, y + 20] not in coords:
-            food.append(canvas.create_rectangle(x, y, x + 20, y + 20, fill='green'))
+
+    # for i in range(len(food)):
+    #     canvas.delete(food[i])
+    if len(food)<3:
+        for t in range(10):
+            x = randint(0, 40) * 20
+            y = randint(0, 30) * 20
+            if [x, y, x + 20, y + 20] not in coords:
+                food.append(canvas.create_rectangle(x, y, x + 20, y + 20, fill='green'))
+                food_coords.append(canvas.coords(food[t]))
 
 window=Tk()
 
@@ -120,6 +139,7 @@ canvas = Canvas(window, width=800, height=600)
 bots=[]
 coords=[]
 food=[]
+food_coords=[]
 energy=[]
 energy_int=[]
 #создание карты
